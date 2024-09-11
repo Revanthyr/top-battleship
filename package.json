@@ -1,0 +1,36 @@
+{
+  "name": "webpack-template",
+  "version": "1.0.0",
+  "description": "Template for using Webpack, ESLint and Prettier",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.prod.js",
+    "watch": "webpack --watch",
+    "start": "webpack serve --open --config webpack.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Revanthyr/webpack-template.git"
+  },
+  "author": "Rev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Revanthyr/webpack-template/issues"
+  },
+  "homepage": "https://github.com/Revanthyr/webpack-template#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "css-loader": "^7.1.2",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
+    "html-webpack-plugin": "^5.6.0",
+    "prettier": "3.3.3",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-merge": "^6.0.1"
+  }
+}
