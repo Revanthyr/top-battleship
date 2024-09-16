@@ -10,10 +10,10 @@ const createShip = function (len) {
     if (this.length == this.hitCount) {
       this.isSunk = true;
       return this.isSunk;
-    }
+    } else return false;
   };
 
-  return { length, hitCount, isSunk, hit, checkIfSunk };
+  return { length, hitCount, hit, checkIfSunk };
 };
 
 export { createShip };
