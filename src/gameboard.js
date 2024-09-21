@@ -1,8 +1,10 @@
-import { createShip } from "./index.js";
+import { fill, some } from "lodash";
+import { createShip } from "./ship.js";
 
 const createGameboard = function () {
   let board = [];
   let missedShots = [];
+  let allShots = [];
   function fillBoard() {
     for (let x = 0; x <= 9; x++) {
       for (let y = 0; y <= 9; y++) {
@@ -14,22 +16,54 @@ const createGameboard = function () {
   function placeShip(x, y, len, direction) {
     // goes downward when placing ship
     let newShip = createShip(len);
+
     if (board[parseInt(x.toString() + y.toString(), 10)].length !== 3) {
       if (direction == "vertical") {
         if (y - (len - 1) >= 0) {
           for (let i = 0; i < len; i++) {
+            if (
+              board[parseInt(x.toString() + (y - 1).toString(), 10)].length == 3
+            ) {
+              return false;
+            }
+          }
+          for (let i = 0; i < len; i++) {
+            if (
+              board[parseInt(x.toString() + (y - i).toString(), 10)].length == 3
+            ) {
+              for (let j = 0; j < i; j++) {
+                board[parseInt(x.toString() + (y - j).toString(), 10)].pop();
+              }
+
+              return false;
+            }
             board[parseInt(x.toString() + (y - i).toString(), 10)].push(
               newShip
             );
+            console.log(
+              `ship was placed at coords: ${board[parseInt(x.toString() + (y - i).toString(), 10)]}`
+            );
           }
+          return true;
         }
       } else {
         if (x - (len - 1) >= 0) {
           for (let i = 0; i < len; i++) {
+            if (
+              board[parseInt((x - i).toString() + y.toString(), 10)].length == 3
+            ) {
+              return false;
+            }
+          }
+          for (let i = 0; i < len; i++) {
             board[parseInt((x - i).toString() + y.toString(), 10)].push(
               newShip
             );
+            console.log(
+              `ship was placed at coords: ${board[parseInt(x.toString() + (y - i).toString(), 10)]}`
+            );
           }
+          return true;
         }
       }
     }
@@ -40,8 +74,19 @@ const createGameboard = function () {
     let square = board[parseInt(x.toString() + y.toString(), 10)];
     if (square.length == 3) {
       square[2].hit();
+      allShots.push([x, y]);
     } else {
       missedShots.push([x, y]);
+      allShots.push([x, y]);
+    }
+  }
+  function reset(password) {
+    if (password == "banana") {
+      allShots = [];
+      missedShots = [];
+
+      board = []; // does get filled smh
+      fillBoard();
     }
   }
   function areAllShipsSunk() {
@@ -58,17 +103,16 @@ const createGameboard = function () {
       }
     }
     return returnValue;
-    // for each square that has length 3
-    // square[3].isSunk()
-    // check all ships isSUnk
-    // returns true if all ships are sunk
   }
-  return { board, placeShip, receiveAttack, missedShots, areAllShipsSunk };
-
-  // be able to report if all ships have been sunk, therefore,
-  // must store all ships
-
-  //an array, of double elemtn arrays [[0,0],[0,1]]
-  // squaree obkects. create 100 of them, with x and y ranging from 1-10
+  return {
+    board,
+    placeShip,
+    receiveAttack,
+    missedShots,
+    areAllShipsSunk,
+    allShots,
+    reset,
+    fillBoard,
+  };
 };
 export { createGameboard };

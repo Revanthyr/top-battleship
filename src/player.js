@@ -1,4 +1,4 @@
-import { createGameboard } from "./gameboard";
+import { createGameboard } from "./gameboard.js";
 const createPlayer = function (type) {
   let playerType = type;
   let gameboard = createGameboard();
